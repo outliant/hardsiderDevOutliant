@@ -1,6 +1,6 @@
 // Assuming subTotal input exists and has a value
-const subTotal = document.getElementById('subtotal').innerHTML;
-const subTotalNumeric = subTotal.replace(/[^0-9.]/g, '');
+const subTotal = ocument.getElementById('subtotal').innerHTML;
+const subTotalNumeric = subTotal.replace(/[$,]/g, '');
 document.getElementById('loanPrice').value = subTotalNumeric;
 
 document.querySelectorAll(".payment_item").forEach((item) => {
@@ -36,7 +36,7 @@ function calculateMonthlyLoanPrice(loanPrice, interestRate, termLength) {
 function calculateLoan(termLength) {
     const loanPrice = parseFloat(document.getElementById('loanPrice').value);
     const interestRateElement = document.getElementById("interest_rate").textContent;
-    const interestRate = parseFloat(interestRateElement.replace(/[^0-9.]/g, ''));
+    const interestRate = parseFloat(interestRateElement.replace(/%/g, ''));
         if (isNaN(loanPrice)) {
         console.log('Please enter the loan amount.');
         return;
