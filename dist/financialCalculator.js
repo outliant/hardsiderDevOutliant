@@ -34,7 +34,7 @@ function calculateMonthlyLoanPrice(loanPrice, interestRate, termLength) {
   }
   function calculateLoan(termLength) {
     const loanPrice = parseFloat(document.getElementById('loanPrice').value);
-    const interestRate = parseFloat(document.getElementById("loanPrice").innerHTML); 
+    const interestRate = parseFloat(document.getElementById("interest_rate").innerHTML); 
     if (isNaN(loanPrice)) {
       console.log('Please enter the loan amount.');
       return;
