@@ -1,5 +1,5 @@
 // Assuming subTotal input exists and has a value
-const subTotal = ocument.getElementById('subtotal').innerHTML;
+const subTotal = document.getElementById('subtotal').innerHTML;
 const subTotalNumeric = subTotal.replace(/[$,]/g, '');
 document.getElementById('loanPrice').value = subTotalNumeric;
 
