@@ -61,9 +61,9 @@ document.getElementById('loanPrice').addEventListener('input', function() {
     calculateLoan(selectedTerm);
 });
 
-window.onload = function() {
+document.getElementById('estimate_payment_link').addEventListener("click", function () {
     const firstPaymentItem = document.querySelector(".payment_item");
     if (firstPaymentItem) {
         firstPaymentItem.click();
     }
-};
+});
