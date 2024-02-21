@@ -1,7 +1,6 @@
 // Assuming subTotal input exists and has a value
-const subTotal = document.getElementById('subtotal').innerHTML;
-const subTotalNumeric = subTotal.replace(/[$,]/g, '');
-document.getElementById('loanPrice').value = subTotalNumeric;
+const subTotal = document.getElementById('subtotal').innerHTML.replace(/[$,]/g, '');
+document.getElementById('loanPrice').value = subTotal;
 
 document.querySelectorAll(".payment_item").forEach((item) => {
     item.addEventListener("click", function () {
