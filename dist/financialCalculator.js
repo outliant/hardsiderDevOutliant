@@ -3,7 +3,6 @@
 const subTotal = document.getElementById('subtotal').value;
 document.getElementById('loanPrice').value = subTotal;
 document.querySelectorAll(".payment_item").forEach((item) => {
-    item[0].click();
     item.addEventListener("click", function () {
         var dataTerms = this.getAttribute("data-terms");
         var inputToUpdate = document.querySelector(".down_payment--text");
