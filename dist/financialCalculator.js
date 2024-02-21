@@ -22,10 +22,16 @@ document.querySelectorAll(".payment_item").forEach((item) => {
         calculateLoan(dataTerms); 
     });
 });
-function calculateMonthlyLoanPrice(loanPrice, interestRate, termLength) {
-    const interestAmount = loanPrice * (interestRate / 100) * (termLength / 12);
-    const amountAfterInterest = loanPrice + interestAmount;
-    return amountAfterInterest / termLength;
+// function calculateMonthlyLoanPrice(loanPrice, interestRate, termLength) {
+//     const interestAmount = loanPrice * (interestRate / 100) * (termLength / 12);
+//     const amountAfterInterest = loanPrice + interestAmount;
+//     return amountAfterInterest / termLength;
+// }
+
+function calculateMonthlyPayment(loanAmount, annualRate, termMonths) {
+    const monthlyRate = 7.49 / 100 / 12;
+    const discountFactor = (Math.pow(1 + monthlyRate, termMonths) - 1) / (monthlyRate * Math.pow(1 + monthlyRate, termMonths));
+    return loanAmount / discountFactor;
 }
 
 function calculateLoan(termLength) {
@@ -34,12 +40,10 @@ function calculateLoan(termLength) {
 
     const interestRateStr = document.getElementById("interest_rate").textContent.replace(/%/g, '');
     const interestRate = parseFloat(interestRateStr);
-
     if (isNaN(loanPrice)) {
         console.log('Please enter a valid loan amount.');
         return;
     }
-
     const monthlyPayment = calculateMonthlyLoanPrice(loanPrice, interestRate, termLength);
     const formattedMonthlyPayment = new Intl.NumberFormat('en-US', {
         style: 'currency',
