@@ -3,7 +3,7 @@ document.querySelectorAll(".payment_item").forEach((item) => {
         var dataTerms = this.getAttribute("data-terms");
         var inputToUpdate = document.querySelector(".down_payment--text");
         switch (dataTerms) {
-            case "48":
+            case "36":
                 inputToUpdate.textContent = "11%";
                 break;
             case "60":
