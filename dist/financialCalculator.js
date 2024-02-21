@@ -4,23 +4,23 @@ document.querySelectorAll(".payment_item").forEach((item) => {
       var inputToUpdate = document.querySelector(".down_payment--text");
       switch (dataTerms) {
         case "48":
-          inputToUpdate.innerHTML = "11%";
+          inputToUpdate.innerHTML = "11";
           calculateLoan(48);
           break;
         case "60":
-          inputToUpdate.innerHTML = "15%";
+          inputToUpdate.innerHTML = "15";
           calculateLoan(60);
           break;
         case "72":
-          inputToUpdate.innerHTML = "20%";
+          inputToUpdate.innerHTML = "20";
           calculateLoan(72);
           break;
         case "84":
-          inputToUpdate.innerHTML = "25%";
+          inputToUpdate.innerHTML = "25";
           calculateLoan(84); 
           break;
         default:
-          inputToUpdate.innerHTML = "11%";
+          inputToUpdate.innerHTML = "11";
           calculateLoan(48);
           break;
       }
@@ -34,7 +34,7 @@ function calculateMonthlyLoanPrice(loanPrice, interestRate, termLength) {
   }
   function calculateLoan(termLength) {
     const loanPrice = parseFloat(document.getElementById('loanPrice').value);
-    const interestRate = parseFloat(document.getElementById('interestRate').value); 
+    const interestRate = parseFloat(document.querySelector(".down_payment--text").innerHTML); 
     if (isNaN(loanPrice)) {
       console.log('Please enter the loan amount.');
       return;
