@@ -27,7 +27,6 @@ function calculateMonthlyLoanPrice(loanPrice, interestRate, termLength) {
     const amountAfterInterest = loanPrice + interestAmount;
     return (amountAfterInterest / termLength).toFixed(2);
 }
-
 function calculateLoan(termLength) {
     const loanPrice = parseFloat(document.getElementById('loanPrice').value);
     const interestRateElement = document.getElementById("interest_rate").textContent;
@@ -37,9 +36,10 @@ function calculateLoan(termLength) {
         return;
     }
     const monthlyPayment = calculateMonthlyLoanPrice(loanPrice, interestRate, termLength);
-    document.getElementById('estimated_price').textContent = `$${monthlyPayment}`;
+    document.querySelector('.price_text').textContent = `$${monthlyPayment}`;
 }
 
 window.onload = function() {
     document.querySelector(".payment_item").click();
+    calculateLoan();
 };
