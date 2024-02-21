@@ -25,7 +25,7 @@ document.querySelectorAll(".payment_item").forEach((item) => {
 function calculateMonthlyLoanPrice(loanPrice, interestRate, termLength) {
     const interestAmount = loanPrice * (interestRate / 100) * (termLength / 12);
     const amountAfterInterest = loanPrice + interestAmount;
-    return (amountAfterInterest / termLength).toFixed(2);
+    return amountAfterInterest / termLength;
 }
 
 function calculateLoan(termLength) {
@@ -41,19 +41,22 @@ function calculateLoan(termLength) {
     }
 
     const monthlyPayment = calculateMonthlyLoanPrice(loanPrice, interestRate, termLength);
-    document.querySelector('.price_text').textContent = `$${monthlyPayment}`;
+    const formattedMonthlyPayment = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    }).format(monthlyPayment);
+    document.querySelector('.price_text').textContent = formattedMonthlyPayment;
 }
 document.querySelectorAll(".payment_item").forEach((item) => {
     item.addEventListener("click", function () {
         var dataTerms = this.getAttribute("data-terms");
-        var inputToUpdate = document.querySelector(".down_payment--text");
-        inputToUpdate.textContent = this.textContent;
         calculateLoan(dataTerms);
     });
 });
 
+
 document.getElementById('loanPrice').addEventListener('input', function() {
-    const selectedTerm = document.querySelector('.payment_item.active').getAttribute('data-terms');
+    const selectedTerm = document.querySelector('.payment_item.payment_item_active').getAttribute('data-terms');
     calculateLoan(selectedTerm);
 });
 
