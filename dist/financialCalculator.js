@@ -1,5 +1,5 @@
 document.getElementById('loanPrice').addEventListener('input', function(e) {
-    let value = e.target.value.replace(/[^0-9.]/g, '');
+    let value = e.target.value;
     let numberValue = parseFloat(value);
     if (!isNaN(numberValue)) {
         e.target.value = numberValue.toLocaleString('en-US', {
