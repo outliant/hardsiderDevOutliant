@@ -5,8 +5,6 @@ document.getElementById('loanPrice').addEventListener('input', function(e) {
         e.target.value = numberValue.toLocaleString('en-US', {
             style: 'currency',
             currency: 'USD',
-            maximumFractionDigits: 2,
-            minimumFractionDigits: 2
         });
     } else {
         e.target.value = '';
