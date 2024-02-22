@@ -1,3 +1,19 @@
+document.getElementById('loanPrice').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/[^0-9.]/g, '');
+    let numberValue = parseFloat(value);
+    if (!isNaN(numberValue)) {
+        e.target.value = numberValue.toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2
+        });
+    } else {
+        e.target.value = '';
+    }
+});
+
+
 document.querySelectorAll(".payment_item").forEach((item) => {
     item.addEventListener("click", function () {
         var dataTerms = this.getAttribute("data-terms");
