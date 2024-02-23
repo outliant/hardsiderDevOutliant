@@ -123,6 +123,10 @@ document
         currency: "USD",
         minimumFractionDigits: 0,
       }).format(10000);
-    document.querySelector("#down_payment").textContent = `$` + document.getElementById("loanPrice").value;
+    document.querySelector("#down_payment").textContent = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 0,
+      }).format(document.getElementById("loanPrice").value);
     updateCalculations();
   });
