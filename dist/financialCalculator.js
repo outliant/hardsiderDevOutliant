@@ -119,7 +119,6 @@ document
   .getElementById("estimate_payment_link")
   .addEventListener("click", function () {
     document.getElementById("loanPrice").value = "10000";
-    document.querySelector("#down_payment").textContent =
-      document.getElementById("loanPrice").value;
+    document.querySelector("#down_payment").textContent = `$` + document.getElementById("loanPrice").value;
     updateCalculations();
   });
