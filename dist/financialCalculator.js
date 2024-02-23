@@ -7,7 +7,7 @@ function formatCurrency(value) {
 }
 
 function updateCalculations() {
-  const loanPriceElement = document.getElementById("loanPrice").replace(/[$,]/g, "");
+  const loanPriceElement = document.getElementById("loanPrice").value.replace(/[$,]/g, "");
   const errorElement = document.getElementById("loanPriceError");
   if (loanPrice > estimatePrice * 0.95) {
     errorElement.textContent =
