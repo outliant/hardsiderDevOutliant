@@ -10,7 +10,7 @@ function updateCalculations() {
   const loanPrice = parseFloat(
     document.getElementById("amount_financed").textContent.replace(/[$,]/g, "")
   );
- 
+
   const downPayment = parseFloat(
     document.getElementById("down_payment").textContent.replace(/[$,]/g, "")
   );
@@ -118,6 +118,8 @@ document.querySelectorAll(".payment_item").forEach((item) => {
 document
   .getElementById("estimate_payment_link")
   .addEventListener("click", function () {
-    document.getElementById("loanPrice").value = "$10,000";
+    document.getElementById("loanPrice").value = "10000";
+    document.querySelector("#down_payment").textContent =
+      document.getElementById("loanPrice").value;
     updateCalculations();
   });
