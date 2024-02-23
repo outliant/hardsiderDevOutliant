@@ -9,17 +9,7 @@ function formatCurrency(value) {
 function updateCalculations() {
   const loanPriceElement = document.getElementById("loanPrice").value.replace(/[$,]/g, "");
   const errorElement = document.getElementById("loanPriceError");
-  if (loanPriceElement > estimatePrice * 0.95) {
-    errorElement.textContent =
-      "Loan amount cannot exceed 95% of the estimated price.";
-      errorElement.classList.add("error"); 
-    return; 
-  } else {
-    errorElement.textContent = "";
-    if (errorElement.classList.contains("error")) {
-        errorElement.classList.remove("error"); 
-    }
-  }
+  
   const loanPrice = parseFloat(
     document.getElementById("amount_financed").textContent.replace(/[$,]/g, "")
   );
@@ -43,6 +33,18 @@ function updateCalculations() {
     return;
   }
 
+  if (loanPriceElement > estimatePrice * 0.95) {
+    errorElement.textContent =
+      "Loan amount cannot exceed 95% of the estimated price.";
+      errorElement.classList.add("error"); 
+    return; 
+  } else {
+    errorElement.textContent = "";
+    if (errorElement.classList.contains("error")) {
+        errorElement.classList.remove("error"); 
+    }
+  }
+  
   const totalAmountFinance = estimatePrice - downPayment - deposit;
   document.getElementById("amount_financed").textContent =
     formatCurrency(totalAmountFinance);
