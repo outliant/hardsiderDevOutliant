@@ -30,7 +30,7 @@ function calculateMonthlyPayment(loanAmount, annualRate, termMonths) {
 }
 
 function calculateLoan(termLength) {
-    const totalAmountFinancedElement = document.getElementById('totalAmountFinance');
+    const totalAmountFinancedElement = document.getElementById('amount_financed');
     const loanPrice = parseFloat(totalAmountFinancedElement.textContent.replace(/[$,]/g, '')); // Updated to parse from textContent and remove currency symbols
 
     const interestRateStr = document.getElementById("interest_rate").textContent.replace(/%/g, '');
@@ -69,4 +69,5 @@ document.getElementById('estimate_payment_link').addEventListener("click", funct
         currency: 'USD',
     }).format(totalAmountFinance);
     document.getElementById('amount_financed').textContent = formattedTotalAmountFinance;
+
 });
