@@ -1,24 +1,6 @@
 document.querySelectorAll(".payment_item").forEach((item) => {
     item.addEventListener("click", function () {
         var dataTerms = this.getAttribute("data-terms");
-        var inputToUpdate = document.querySelector(".down_payment--text");
-        switch (dataTerms) {
-            case "36":
-                inputToUpdate.textContent = "11%";
-                break;
-            case "60":
-                inputToUpdate.textContent = "15%";
-                break;
-            case "72":
-                inputToUpdate.textContent = "20%";
-                break;
-            case "84":
-                inputToUpdate.textContent = "25%";
-                break;
-            default:
-                inputToUpdate.textContent = "11%";
-                break;
-        }
         calculateLoan(dataTerms);
     });
 });
@@ -54,20 +36,32 @@ document.getElementById('loanPrice').addEventListener('input', function () {
     calculateLoan(selectedTerm);
 });
 
+function calculateDownPaymentPercentage(estimatedPrice, downPayment) {
+    var inputToUpdate = document.querySelector(".down_payment--text");
+    const percentageDownpayment = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    }).format((downPayment / estimatedPrice) * 100);
+    inputToUpdate.textContent = percentageDownpayment;
+}
+
 document.getElementById('estimate_payment_link').addEventListener("click", function () {
     const firstPaymentItem = document.querySelector(".payment_item");
     if (firstPaymentItem) {
         firstPaymentItem.click();
     }
+    document.getElementById('loanPrice').value = `$10,000`
     const estimate_price = parseFloat(document.querySelector("#estimate_price").textContent.replace(/[$,]/g, '')); 
-    const down_payment = parseFloat(document.querySelector("#down_payment").value.replace(/[$,]/g, ''));
-    const deposit = parseFloat(document.querySelector("#deposit").value.replace(/[$,]/g, ''));
+    const down_payment = parseFloat(document.querySelector("#down_payment").textContent.replace(/[$,]/g, ''));
+    const deposit = parseFloat(document.querySelector("#deposit").textContent.replace(/[$,]/g, ''));
 
     const totalAmountFinance = estimate_price - down_payment - deposit;
     const formattedTotalAmountFinance = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
     }).format(totalAmountFinance);
+    calculateDownPaymentPercentage(estimate_price, down_payment);
+
     document.getElementById('amount_financed').textContent = formattedTotalAmountFinance;
 
 });
