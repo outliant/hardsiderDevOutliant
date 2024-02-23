@@ -116,69 +116,113 @@
 //     }
 //   });
 
-
 function formatCurrency(value) {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 0,
-    }).format(value);
-  }
-  
-  function updateCalculations() {
-    const loanPrice = parseFloat(document.getElementById("amount_financed").textContent.replace(/[$,]/g, ""));
-    const interestRate = parseFloat(document.getElementById("interest_rate").textContent.replace(/%/g, ""));
-    const downPayment = parseFloat(document.getElementById("down_payment").textContent.replace(/[$,]/g, ""));
-    const estimatePrice = parseFloat(document.getElementById("estimate_price").textContent.replace(/[$,-]/g, ""));
-    const deposit = parseFloat(document.getElementById("deposit").textContent.replace(/[$,-]/g, ""));
-  
-    if (isNaN(loanPrice) || isNaN(interestRate) || isNaN(downPayment) || isNaN(estimatePrice) || isNaN(deposit)) {
-      console.error("Invalid input for calculation.");
-      return;
-    }
-  
-    const totalAmountFinance = estimatePrice - downPayment - deposit;
-    document.getElementById("amount_financed").textContent = formatCurrency(totalAmountFinance);
-  
-    const selectedTerm = document.querySelector(".payment_item.payment_item_active")?.getAttribute("data-terms");
-    if (selectedTerm) {
-      const termLength = parseInt(selectedTerm, 10);
-      const monthlyPayment = calculateMonthlyPayment(totalAmountFinance, interestRate, termLength);
-      document.querySelector(".price_text").textContent = formatCurrency(monthlyPayment);
-    }
-  
-    calculateDownPaymentPercentage(estimatePrice, downPayment);
-  }
-  
-  function calculateMonthlyPayment(loanAmount, annualRate, termMonths) {
-    const monthlyRate = annualRate / 100 / 12;
-    const discountFactor = (Math.pow(1 + monthlyRate, termMonths) - 1) / (monthlyRate * Math.pow(1 + monthlyRate, termMonths));
-    return loanAmount / discountFactor;
-  }
-  
-  function calculateDownPaymentPercentage(estimatedPrice, downPayment) {
-    var inputToUpdate = document.querySelector(".down_payment--text");
-    if (downPayment > estimatedPrice) {
-      console.error("Down payment cannot be greater than the estimated price.");
-      inputToUpdate.textContent = "Error";
-      return;
-    }
-    const percentageDown = (downPayment / estimatedPrice) * 100;
-    inputToUpdate.textContent = percentageDown.toFixed(2) + "%";
-  }
-  
-  document.querySelectorAll(".payment_item").forEach((item) => {
-    item.addEventListener("click", function () {
-      updateCalculations();
-    });
-  });
-  
-  document.querySelectorAll("#down_payment, #estimate_price, #deposit").forEach(input => {
-    input.addEventListener('input', function(e) {
-      e.target.value = formatCurrency(e.target.value.replace(/[\$,]/g, ''));
-      updateCalculations();
-    });
-  });
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 0,
+  }).format(value);
+}
 
-  updateCalculations();
-  
+function updateCalculations() {
+  const loanPrice = parseFloat(
+    document.getElementById("amount_financed").textContent.replace(/[$,]/g, "")
+  );
+  const interestRate = parseFloat(
+    document.getElementById("interest_rate").textContent.replace(/%/g, "")
+  );
+  const downPayment = parseFloat(
+    document.getElementById("down_payment").textContent.replace(/[$,]/g, "")
+  );
+  const estimatePrice = parseFloat(
+    document.getElementById("estimate_price").textContent.replace(/[$,-]/g, "")
+  );
+  const deposit = parseFloat(
+    document.getElementById("deposit").textContent.replace(/[$,-]/g, "")
+  );
+
+  if (
+    isNaN(loanPrice) ||
+    isNaN(interestRate) ||
+    isNaN(downPayment) ||
+    isNaN(estimatePrice) ||
+    isNaN(deposit)
+  ) {
+    console.error("Invalid input for calculation.");
+    return;
+  }
+
+  const totalAmountFinance = estimatePrice - downPayment - deposit;
+  document.getElementById("amount_financed").textContent =
+    formatCurrency(totalAmountFinance);
+  const selectedTerm = document
+    .querySelector(".payment_item.payment_item_active")
+    ?.getAttribute("data-terms");
+  if (selectedTerm) {
+    const termLength = parseInt(selectedTerm, 10);
+    const monthlyPayment = calculateMonthlyPayment(
+      totalAmountFinance,
+      interestRate,
+      termLength
+    );
+    document.querySelector(".price_text").textContent =
+      formatCurrency(monthlyPayment);
+  }
+
+  calculateDownPaymentPercentage(estimatePrice, downPayment);
+}
+
+function calculateMonthlyPayment(loanAmount, annualRate, termMonths) {
+  const monthlyRate = annualRate / 100 / 12;
+  const discountFactor =
+    (Math.pow(1 + monthlyRate, termMonths) - 1) /
+    (monthlyRate * Math.pow(1 + monthlyRate, termMonths));
+  return loanAmount / discountFactor;
+}
+
+function calculateDownPaymentPercentage(estimatedPrice, downPayment) {
+  var inputToUpdate = document.querySelector(".down_payment--text");
+  if (downPayment > estimatedPrice) {
+    console.error("Down payment cannot be greater than the estimated price.");
+    inputToUpdate.textContent = "Error";
+    return;
+  }
+  const percentageDown = (downPayment / estimatedPrice) * 100;
+  inputToUpdate.textContent = percentageDown.toFixed(2) + "%";
+}
+
+document.querySelectorAll(".payment_item").forEach((item) => {
+  item.addEventListener("click", function () {
+    updateCalculations();
+  });
+});
+
+document.querySelectorAll("#loanPrice").forEach((input) => {
+  input.addEventListener("input", function (e) {
+    let cursorPosition = e.target.selectionStart;
+    let originalLength = e.target.value.length;
+    let value = e.target.value.replace(/[\$,]/g, "");
+    value = parseFloat(value).toString();
+    if (!isNaN(value)) {
+      e.target.value = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 0,
+      }).format(value);
+      document.querySelector("#down_payment").textContent =
+        new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          minimumFractionDigits: 0,
+        }).format(value);
+    } else {
+      e.target.value = "";
+    }
+    let newLength = e.target.value.length;
+    cursorPosition += newLength - originalLength;
+    e.target.setSelectionRange(cursorPosition, cursorPosition);
+    updateCalculations();
+  });
+});
+
+updateCalculations();
