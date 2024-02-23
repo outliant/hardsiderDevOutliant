@@ -40,7 +40,6 @@ function calculateLoan(termLength) {
         console.log('Please enter a valid loan amount.');
         return;
     }
-
     const monthlyPayment = calculateMonthlyPayment(loanPrice, 7.49, termLength);
     const formattedMonthlyPayment = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -60,8 +59,7 @@ document.getElementById('estimate_payment_link').addEventListener("click", funct
     if (firstPaymentItem) {
         firstPaymentItem.click();
     }
-
-    const estimate_price = parseFloat(document.querySelector("#estimate_price").value.replace(/[$,]/g, '')); // Parse float and strip currency formatting
+    const estimate_price = parseFloat(document.querySelector("#estimate_price").value.replace(/[$,]/g, '')); 
     const down_payment = parseFloat(document.querySelector("#down_payment").value.replace(/[$,]/g, ''));
     const deposit = parseFloat(document.querySelector("#deposit").value.replace(/[$,]/g, ''));
 
@@ -70,6 +68,5 @@ document.getElementById('estimate_payment_link').addEventListener("click", funct
         style: 'currency',
         currency: 'USD',
     }).format(totalAmountFinance);
-
-    document.getElementById('totalAmountFinance').textContent = formattedTotalAmountFinance; // Update to set formatted string
+    document.getElementById('amount_financed').textContent = formattedTotalAmountFinance;
 });
