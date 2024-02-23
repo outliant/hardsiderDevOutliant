@@ -225,10 +225,19 @@ document.querySelectorAll("#loanPrice").forEach((input) => {
     updateCalculations();
   });
 });
-
+document.querySelectorAll(".payment_item").forEach((item) => {
+item.addEventListener("click", function () {
+    this.classList.add('payment_item_active');
+    let siblings = Array.from(this.parentNode.children).filter((child) => child !== this);
+    siblings.forEach((sibling) => {
+    sibling.classList.remove('payment_item_active');
+    });
+    updateCalculations();
+});
+});
 document
   .getElementById("estimate_payment_link")
   .addEventListener("click", function () {
-    document.getElementById("#loanPrice").value = "$10,000";
+    document.getElementById("loanPrice").value = "$10,000";
     updateCalculations();
   });
