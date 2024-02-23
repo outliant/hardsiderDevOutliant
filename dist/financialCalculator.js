@@ -9,15 +9,15 @@ function formatCurrency(value) {
 function updateCalculations() {
   const loanPriceElement = document.getElementById("loanPrice").value.replace(/[$,]/g, "");
   const errorElement = document.getElementById("loanPriceError");
-  if (loanPrice > estimatePrice * 0.95) {
+  if (loanPriceElement > estimatePrice * 0.95) {
     errorElement.textContent =
       "Loan amount cannot exceed 95% of the estimated price.";
-    loanPriceElement.classList.add("error"); 
+      errorElement.classList.add("error"); 
     return; 
   } else {
     errorElement.textContent = "";
-    if (loanPriceElement.classList.contains("error")) {
-      loanPriceElement.classList.remove("error"); 
+    if (errorElement.classList.contains("error")) {
+        errorElement.classList.remove("error"); 
     }
   }
   const loanPrice = parseFloat(
