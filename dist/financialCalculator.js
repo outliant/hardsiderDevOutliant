@@ -103,6 +103,13 @@ document.querySelectorAll("#loanPrice").forEach((input) => {
     updateCalculations();
   });
 });
+
+document.getElementById('loanPrice').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      return false;
+    }
+  });
 document.querySelectorAll(".payment_item").forEach((item) => {
   item.addEventListener("click", function () {
     this.classList.add("payment_item_active");
