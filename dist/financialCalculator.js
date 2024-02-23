@@ -37,23 +37,41 @@ function calculateLoan(termLength) {
   document.querySelector(".price_text").textContent = formattedMonthlyPayment;
 }
 
-document.getElementById("loanPrice").addEventListener("input", function () {
-  const selectedTerm = document
-    .querySelector(".payment_item.payment_item_active")
-    .getAttribute("data-terms");
-  calculateLoan(selectedTerm);
+document.querySelector("#down_payment").addEventListener("input", function () {
+  const downPaymentValue = parseFloat(this.value.replace(/[$,-]/g, ""));
+  if (!isNaN(downPaymentValue)) {
+    const loanPriceElement = document.getElementById("loanPrice");
+    const estimatePriceElement = document.querySelector("#estimate_price");
+    const estimatedPrice = parseFloat(
+      estimatePriceElement.textContent.replace(/[$,-]/g, "")
+    );
+    const newLoanPrice = estimatedPrice - downPaymentValue;
+    const formattedNewLoanPrice = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(newLoanPrice);
+    loanPriceElement.value = formattedNewLoanPrice;
+    const selectedTerm = document
+      .querySelector(".payment_item.payment_item_active")
+      ?.getAttribute("data-terms");
+    if (selectedTerm) {
+      calculateLoan(selectedTerm);
+    }
+  } else {
+    console.error("Invalid input for down payment.");
+  }
 });
 
 function calculateDownPaymentPercentage(estimatedPrice, downPayment) {
-    var inputToUpdate = document.querySelector(".down_payment--text");
-    if (downPayment > estimatedPrice) {
-      console.error("Down payment cannot be greater than the estimated price.");
-      inputToUpdate.textContent = "Error";
-      return;
-    }
-    const percentageDown = (downPayment / estimatedPrice) * 100;
-    inputToUpdate.textContent = percentageDown.toFixed(2) + "%"; 
+  var inputToUpdate = document.querySelector(".down_payment--text");
+  if (downPayment > estimatedPrice) {
+    console.error("Down payment cannot be greater than the estimated price.");
+    inputToUpdate.textContent = "Error";
+    return;
   }
+  const percentageDown = (downPayment / estimatedPrice) * 100;
+  inputToUpdate.textContent = percentageDown.toFixed(2) + "%";
+}
 
 document
   .getElementById("estimate_payment_link")
@@ -82,10 +100,9 @@ document
     }).format(totalAmountFinance);
     document.getElementById("amount_financed").textContent =
       formattedTotalAmountFinance;
-      if (!isNaN(estimate_price) && !isNaN(down_payment)) {
-        calculateDownPaymentPercentage(estimate_price, down_payment);
-      } else {
-        console.error("Invalid input for estimated price or down payment.");
-      }
-    
+    if (!isNaN(estimate_price) && !isNaN(down_payment)) {
+      calculateDownPaymentPercentage(estimate_price, down_payment);
+    } else {
+      console.error("Invalid input for estimated price or down payment.");
+    }
   });
