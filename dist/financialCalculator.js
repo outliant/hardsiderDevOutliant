@@ -7,10 +7,22 @@ function formatCurrency(value) {
 }
 
 function updateCalculations() {
+  const loanPriceElement = document.getElementById("loanPrice");
+  const errorElement = document.getElementById("loanPriceError");
+  if (loanPrice > estimatePrice * 0.95) {
+    errorElement.textContent =
+      "Loan amount cannot exceed 95% of the estimated price.";
+    loanPriceElement.classList.add("error"); 
+    return; 
+  } else {
+    errorElement.textContent = "";
+    if (loanPriceElement.classList.contains("error")) {
+      loanPriceElement.classList.remove("error"); 
+    }
+  }
   const loanPrice = parseFloat(
     document.getElementById("amount_financed").textContent.replace(/[$,]/g, "")
   );
-
   const downPayment = parseFloat(
     document.getElementById("down_payment").textContent.replace(/[$,]/g, "")
   );
@@ -104,8 +116,10 @@ document.querySelectorAll("#loanPrice").forEach((input) => {
   });
 });
 
-document.getElementById('loanPrice').addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
+document
+  .getElementById("loanPrice")
+  .addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
       event.preventDefault();
       return false;
     }
@@ -125,19 +139,23 @@ document.querySelectorAll(".payment_item").forEach((item) => {
 document
   .getElementById("estimate_payment_link")
   .addEventListener("click", function () {
-
     const defaultLoanPrice = 10000;
-    document.getElementById("loanPrice").value = new Intl.NumberFormat("en-US", {
+    document.getElementById("loanPrice").value = new Intl.NumberFormat(
+      "en-US",
+      {
         style: "currency",
         currency: "USD",
         minimumFractionDigits: 0,
-      }).format(defaultLoanPrice);
-      
-      document.querySelector("#down_payment").textContent =
-      new Intl.NumberFormat("en-US", {
+      }
+    ).format(defaultLoanPrice);
+
+    document.querySelector("#down_payment").textContent = new Intl.NumberFormat(
+      "en-US",
+      {
         style: "currency",
         currency: "USD",
         minimumFractionDigits: 0,
-      }).format(defaultLoanPrice);
+      }
+    ).format(defaultLoanPrice);
     updateCalculations();
   });
