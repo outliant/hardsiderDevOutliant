@@ -7,9 +7,11 @@ function formatCurrency(value) {
 }
 
 function updateCalculations() {
-  const loanPriceElement = document.getElementById("loanPrice").value.replace(/[$,]/g, "");
+  const loanPriceElement = document
+    .getElementById("loanPrice")
+    .value.replace(/[$,]/g, "");
   const errorElement = document.getElementById("loanPriceError");
-  
+
   const loanPrice = parseFloat(
     document.getElementById("amount_financed").textContent.replace(/[$,]/g, "")
   );
@@ -32,37 +34,36 @@ function updateCalculations() {
     console.error("Invalid input for calculation.");
     return;
   }
-
+  const totalAmountFinance = estimatePrice - downPayment - deposit;
   if (loanPriceElement > estimatePrice * 0.95) {
     errorElement.textContent =
       "Loan amount cannot exceed 95% of the estimated price.";
-      errorElement.classList.add("error"); 
-    return; 
+    errorElement.classList.add("error");
+    errorElement.classList.remove("hide");
+    return;
   } else {
     errorElement.textContent = "";
     if (errorElement.classList.contains("error")) {
-        errorElement.classList.remove("error"); 
+      errorElement.classList.remove("error");
+      errorElement.classList.add("hide");
     }
+    document.getElementById("amount_financed").textContent =
+      formatCurrency(totalAmountFinance);
+    const selectedTerm = document
+      .querySelector(".payment_item.payment_item_active")
+      ?.getAttribute("data-terms");
+    if (selectedTerm) {
+      const termLength = parseInt(selectedTerm);
+      const monthlyPayment = calculateMonthlyPayment(
+        totalAmountFinance,
+        7.49,
+        termLength
+      );
+      document.querySelector(".price_text").textContent =
+        formatCurrency(monthlyPayment);
+    }
+    calculateDownPaymentPercentage(estimatePrice, downPayment);
   }
-  
-  const totalAmountFinance = estimatePrice - downPayment - deposit;
-  document.getElementById("amount_financed").textContent =
-    formatCurrency(totalAmountFinance);
-  const selectedTerm = document
-    .querySelector(".payment_item.payment_item_active")
-    ?.getAttribute("data-terms");
-  if (selectedTerm) {
-    const termLength = parseInt(selectedTerm);
-    const monthlyPayment = calculateMonthlyPayment(
-      totalAmountFinance,
-      7.49,
-      termLength
-    );
-    document.querySelector(".price_text").textContent =
-      formatCurrency(monthlyPayment);
-  }
-
-  calculateDownPaymentPercentage(estimatePrice, downPayment);
 }
 
 function calculateMonthlyPayment(loanAmount, annualRate, termMonths) {
