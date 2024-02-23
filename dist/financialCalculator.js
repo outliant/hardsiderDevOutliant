@@ -1,18 +1,3 @@
-document.getElementById('loanPrice').addEventListener('input', function(e) {
-    let value = e.target.value;
-    let numberValue = parseFloat(value);
-    if (!isNaN(numberValue)) {
-        e.target.value = numberValue.toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 2
-        });
-    } else {
-        e.target.value = '';
-    }
-});
-
-
 document.querySelectorAll(".payment_item").forEach((item) => {
     item.addEventListener("click", function () {
         var dataTerms = this.getAttribute("data-terms");
@@ -28,15 +13,16 @@ document.querySelectorAll(".payment_item").forEach((item) => {
                 inputToUpdate.textContent = "20%";
                 break;
             case "84":
-                inputToUpdate.textContent = "25%"; 
+                inputToUpdate.textContent = "25%";
                 break;
             default:
                 inputToUpdate.textContent = "11%";
                 break;
         }
-        calculateLoan(dataTerms); 
+        calculateLoan(dataTerms);
     });
 });
+
 function calculateMonthlyPayment(loanAmount, annualRate, termMonths) {
     const monthlyRate = annualRate / 100 / 12;
     const discountFactor = (Math.pow(1 + monthlyRate, termMonths) - 1) / (monthlyRate * Math.pow(1 + monthlyRate, termMonths));
@@ -44,8 +30,8 @@ function calculateMonthlyPayment(loanAmount, annualRate, termMonths) {
 }
 
 function calculateLoan(termLength) {
-    const loanPriceStr = document.getElementById('loanPrice').value.replace(/[^0-9.]/g, '');
-    const loanPrice = parseFloat(loanPriceStr);
+    const totalAmountFinancedElement = document.getElementById('totalAmountFinance');
+    const loanPrice = parseFloat(totalAmountFinancedElement.textContent.replace(/[$,]/g, '')); // Updated to parse from textContent and remove currency symbols
 
     const interestRateStr = document.getElementById("interest_rate").textContent.replace(/%/g, '');
     const interestRate = parseFloat(interestRateStr);
@@ -61,17 +47,10 @@ function calculateLoan(termLength) {
         currency: 'USD',
     }).format(monthlyPayment);
 
-    document.querySelector('.price_text').textContent = formattedMonthlyPayment;
+    document.querySelector('.price_text').textContent = formattedMonthlyPayment; // Ensure this selector is correct
 }
-document.querySelectorAll(".payment_item").forEach((item) => {
-    item.addEventListener("click", function () {
-        var dataTerms = this.getAttribute("data-terms");
-        calculateLoan(dataTerms);
-    });
-});
 
-
-document.getElementById('loanPrice').addEventListener('input', function() {
+document.getElementById('loanPrice').addEventListener('input', function () {
     const selectedTerm = document.querySelector('.payment_item.payment_item_active').getAttribute('data-terms');
     calculateLoan(selectedTerm);
 });
@@ -81,4 +60,16 @@ document.getElementById('estimate_payment_link').addEventListener("click", funct
     if (firstPaymentItem) {
         firstPaymentItem.click();
     }
+
+    const estimate_price = parseFloat(document.querySelector("#estimate_price").value.replace(/[$,]/g, '')); // Parse float and strip currency formatting
+    const down_payment = parseFloat(document.querySelector("#down_payment").value.replace(/[$,]/g, ''));
+    const deposit = parseFloat(document.querySelector("#deposit").value.replace(/[$,]/g, ''));
+
+    const totalAmountFinance = estimate_price - down_payment - deposit;
+    const formattedTotalAmountFinance = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    }).format(totalAmountFinance);
+
+    document.getElementById('totalAmountFinance').textContent = formattedTotalAmountFinance; // Update to set formatted string
 });
