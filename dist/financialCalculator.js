@@ -116,7 +116,6 @@
 //     }
 //   });
 
-document.querySelectorAll("#loanPrice").value = "$10,000";
 
 function formatCurrency(value) {
   return new Intl.NumberFormat("en-US", {
@@ -161,7 +160,7 @@ function updateCalculations() {
     .querySelector(".payment_item.payment_item_active")
     ?.getAttribute("data-terms");
   if (selectedTerm) {
-    const termLength = parseInt(selectedTerm, 10);
+    const termLength = parseInt(selectedTerm);
     const monthlyPayment = calculateMonthlyPayment(
       totalAmountFinance,
       interestRate,
@@ -230,5 +229,6 @@ document.querySelectorAll("#loanPrice").forEach((input) => {
 document
   .getElementById("estimate_payment_link")
   .addEventListener("click", function () {
+    document.getElementById("#loanPrice").value = "$10,000";
     updateCalculations();
   });
