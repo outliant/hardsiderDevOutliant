@@ -45,10 +45,15 @@ document.getElementById("loanPrice").addEventListener("input", function () {
 });
 
 function calculateDownPaymentPercentage(estimatedPrice, downPayment) {
-  var inputToUpdate = document.querySelector(".down_payment--text");
-  const percentageDown = (estimatedPrice / downPayment) * 100;
-  inputToUpdate.textContent = percentageDown.toFixed(2) + "%";
-}
+    var inputToUpdate = document.querySelector(".down_payment--text");
+    if (downPayment > estimatedPrice) {
+      console.error("Down payment cannot be greater than the estimated price.");
+      inputToUpdate.textContent = "Error";
+      return;
+    }
+    const percentageDown = (downPayment / estimatedPrice) * 100;
+    inputToUpdate.textContent = percentageDown.toFixed(2) + "%"; 
+  }
 
 document
   .getElementById("estimate_payment_link")
@@ -77,5 +82,10 @@ document
     }).format(totalAmountFinance);
     document.getElementById("amount_financed").textContent =
       formattedTotalAmountFinance;
-    calculateDownPaymentPercentage(estimate_price, down_payment);
+      if (!isNaN(estimate_price) && !isNaN(down_payment)) {
+        calculateDownPaymentPercentage(estimate_price, down_payment);
+      } else {
+        console.error("Invalid input for estimated price or down payment.");
+      }
+    
   });
