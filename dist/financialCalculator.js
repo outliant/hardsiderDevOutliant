@@ -118,7 +118,11 @@ document.querySelectorAll(".payment_item").forEach((item) => {
 document
   .getElementById("estimate_payment_link")
   .addEventListener("click", function () {
-    document.getElementById("loanPrice").value = "10000";
+    document.getElementById("loanPrice").value = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 0,
+      }).format(10000);
     document.querySelector("#down_payment").textContent = `$` + document.getElementById("loanPrice").value;
     updateCalculations();
   });
