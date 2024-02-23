@@ -38,26 +38,26 @@ document.getElementById('loanPrice').addEventListener('input', function () {
 
 function calculateDownPaymentPercentage(estimatedPrice, downPayment) {
     var inputToUpdate = document.querySelector(".down_payment--text");
-    inputToUpdate.textContent = (downPayment / estimatedPrice) * 100 + "%";
+    const percentageDown = (estimatedPrice / downPayment) * 100;
+    inputToUpdate.textContent =  percentageDown.toFixed(2); + "%";
 }
 
-document.getElementById('estimate_payment_link').addEventListener("click", function () {
-    const firstPaymentItem = document.querySelector(".payment_item");
-    if (firstPaymentItem) {
-        firstPaymentItem.click();
-    }
-    document.getElementById('loanPrice').value = `$10,000`
-    const estimate_price = parseFloat(document.querySelector("#estimate_price").textContent.replace(/[$,]/g, '')); 
-    const down_payment = parseFloat(document.querySelector("#down_payment").textContent.replace(/[$,]/g, ''));
-    const deposit = parseFloat(document.querySelector("#deposit").textContent.replace(/[$,]/g, ''));
+    document.getElementById('estimate_payment_link').addEventListener("click", function () {
+        const firstPaymentItem = document.querySelector(".payment_item");
+        if (firstPaymentItem) {
+            firstPaymentItem.click();
+        }
+        document.getElementById('loanPrice').value = `$10,000`
+        const estimate_price = parseFloat(document.querySelector("#estimate_price").textContent.replace(/[$,-]/g, '')); 
+        const down_payment = parseFloat(document.querySelector("#down_payment").textContent.replace(/[$,-]/g, ''));
+        const deposit = parseFloat(document.querySelector("#deposit").textContent.replace(/[$,-]/g, ''));
 
-    const totalAmountFinance = estimate_price - down_payment - deposit;
-    const formattedTotalAmountFinance = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-    }).format(totalAmountFinance);
-    calculateDownPaymentPercentage(estimate_price, down_payment);
+        const totalAmountFinance = estimate_price - down_payment - deposit;
+        const formattedTotalAmountFinance = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+        }).format(totalAmountFinance);
+        document.getElementById('amount_financed').textContent = formattedTotalAmountFinance;
+        calculateDownPaymentPercentage(estimate_price, down_payment);
 
-    document.getElementById('amount_financed').textContent = formattedTotalAmountFinance;
-
-});
+    });
