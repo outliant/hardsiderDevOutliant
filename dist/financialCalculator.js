@@ -38,11 +38,7 @@ document.getElementById('loanPrice').addEventListener('input', function () {
 
 function calculateDownPaymentPercentage(estimatedPrice, downPayment) {
     var inputToUpdate = document.querySelector(".down_payment--text");
-    const percentageDownpayment = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-    }).format((downPayment / estimatedPrice) * 100);
-    inputToUpdate.textContent = percentageDownpayment;
+    inputToUpdate.textContent = (downPayment / estimatedPrice) * 100 + "%";
 }
 
 document.getElementById('estimate_payment_link').addEventListener("click", function () {
