@@ -116,6 +116,8 @@
 //     }
 //   });
 
+document.querySelectorAll("#loanPrice").value = "$10,000";
+
 function formatCurrency(value) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -225,4 +227,8 @@ document.querySelectorAll("#loanPrice").forEach((input) => {
   });
 });
 
-updateCalculations();
+document
+  .getElementById("estimate_payment_link")
+  .addEventListener("click", function () {
+    updateCalculations();
+  });
