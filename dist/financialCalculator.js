@@ -31,7 +31,7 @@ function calculateMonthlyPayment(loanAmount, annualRate, termMonths) {
 
 function calculateLoan(termLength) {
     const totalAmountFinancedElement = document.getElementById('amount_financed');
-    const loanPrice = parseFloat(totalAmountFinancedElement.textContent.replace(/[$,]/g, '')); // Updated to parse from textContent and remove currency symbols
+    const loanPrice = parseFloat(totalAmountFinancedElement.textContent.replace(/[$,]/g, '')); 
 
     const interestRateStr = document.getElementById("interest_rate").textContent.replace(/%/g, '');
     const interestRate = parseFloat(interestRateStr);
@@ -46,7 +46,7 @@ function calculateLoan(termLength) {
         currency: 'USD',
     }).format(monthlyPayment);
 
-    document.querySelector('.price_text').textContent = formattedMonthlyPayment; // Ensure this selector is correct
+    document.querySelector('.price_text').textContent = formattedMonthlyPayment; 
 }
 
 document.getElementById('loanPrice').addEventListener('input', function () {
@@ -59,7 +59,7 @@ document.getElementById('estimate_payment_link').addEventListener("click", funct
     if (firstPaymentItem) {
         firstPaymentItem.click();
     }
-    const estimate_price = parseFloat(document.querySelector("#estimate_price").value.replace(/[$,]/g, '')); 
+    const estimate_price = parseFloat(document.querySelector("#estimate_price").textContent.replace(/[$,]/g, '')); 
     const down_payment = parseFloat(document.querySelector("#down_payment").value.replace(/[$,]/g, ''));
     const deposit = parseFloat(document.querySelector("#deposit").value.replace(/[$,]/g, ''));
 
