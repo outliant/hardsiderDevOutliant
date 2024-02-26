@@ -56,7 +56,7 @@ function updateCalculations() {
       const termLength = parseInt(selectedTerm);
       const monthlyPayment = calculateMonthlyPayment(
         totalAmountFinance,
-        7.49,
+        8.49,
         termLength
       );
       document.querySelector(".price_text").textContent =
