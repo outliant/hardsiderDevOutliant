@@ -143,6 +143,8 @@ document
   .getElementById("estimate_payment_link")
   .addEventListener("click", function () {
     const defaultLoanPrice = 10000;
+    const subTotal = document.getElementById("subtotal").textContent;
+    document.getElementById("estimate_price").textContent = subTotal;
     document.getElementById("loanPrice").value = new Intl.NumberFormat(
       "en-US",
       {
