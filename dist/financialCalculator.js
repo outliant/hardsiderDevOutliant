@@ -145,6 +145,7 @@ document
     const defaultLoanPrice = 0;
     const subTotal = document.getElementById("subtotal").textContent;
     document.getElementById("estimate_price").textContent = subTotal;
+    console.log("Subtotal:", subTotal);
     document.getElementById("loanPrice").value = new Intl.NumberFormat(
       "en-US",
       {
